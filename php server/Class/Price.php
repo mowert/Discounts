@@ -12,10 +12,12 @@
 		public function Save(){
 			global $Data;
 
+			$isset = count($Data->GetRows("SELECT `id` FROM `current_goods` WHERE `ids` = ".$Data->Quote($this->ids)." AND `parent` = ".$Data->Quote($this->parent)));
+
 			foreach ($Data->table['price'] as $key) {
 				if(!isset($this->$key)) continue;
 
-				if(isset($this->id)){
+				if($isset){
 					$data[] = "`{$key}` = ".$Data->Quote($this->$key);
 				} else {
 					$data_k[] = "`{$key}`";
@@ -24,7 +26,9 @@
 				
 			}
 
-			return $Data->Query((isset($this->id) ? "UPDATE `current_goods` SET ".implode(', ', $data)." WHERE `id` =".$Data->Quote($this->id):"INSERT INTO `current_goods` (".implode(', ', $data_k).") VALUES (".implode(', ', $data_v).")"));
+			if($isset){
+				$Data->Query("UPDATE `current_goods` SET ".implode(', ', $data)." WHERE `ids` = ".$Data->Quote($this->ids)." AND `parent` = ".$Data->Quote($this->parent));
+			} else $Data->Query("INSERT INTO `current_goods` (".implode(', ', $data_k).") VALUES (".implode(', ', $data_v).")");
 
 		}
 

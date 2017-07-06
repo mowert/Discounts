@@ -7,7 +7,7 @@
 		private $data;
 		private $register;
 		var $table = Array(
-			"price" => Array('id', 'title', 'parent', 'type', 'start', 'end', 'image', 'priceold', 'price'),
+			"price" => Array('id', 'ids', 'title', 'parent', 'type', 'start', 'end', 'image', 'priceold', 'price'),
 		);
 
 
